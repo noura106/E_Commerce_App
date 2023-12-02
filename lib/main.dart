@@ -2,6 +2,7 @@ import 'package:e_commerce_app_v2/core/helper/bindings.dart';
 import 'package:e_commerce_app_v2/firebase_options.dart';
 import 'package:e_commerce_app_v2/view/auth/login_screen.dart';
 import 'package:e_commerce_app_v2/view/control_view.dart';
+import 'package:e_commerce_app_v2/view_model/cart_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       initialBinding: Binding(),
       title: 'E_Commerce_App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        fontFamily: 'SourceSans',
         useMaterial3: true,
       ),
       home:  Scaffold(

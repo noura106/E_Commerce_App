@@ -4,7 +4,7 @@ import 'package:e_commerce_app_v2/view/cart_view.dart';
 import 'package:e_commerce_app_v2/view/home/home_view.dart';
 import 'package:e_commerce_app_v2/view/profile_view.dart';
 import 'package:e_commerce_app_v2/view_model/auth_view_model.dart';
-import 'package:e_commerce_app_v2/view_model/home_view_model.dart';
+import 'package:e_commerce_app_v2/view_model/control_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,7 +16,7 @@ class ControlView extends GetWidget<AuthViewModel> {
       return Get.find<AuthViewModel>().user == null
           ? const LoginView()
           : Scaffold(
-              body: GetBuilder<HomeViewModel>(
+              body: GetBuilder<ControlViewModel>(
                 builder: (controller) {
                   return Scaffold(
                     body: controller.currentScreen,
@@ -29,8 +29,8 @@ class ControlView extends GetWidget<AuthViewModel> {
   }
 
   Widget bottomNavigationBar() {
-    return GetBuilder<HomeViewModel>(
-        init: HomeViewModel(),
+    return GetBuilder<ControlViewModel>(
+        init: ControlViewModel(),
         builder: (controller) {
           return BottomNavigationBar(
               onTap: (int value) {

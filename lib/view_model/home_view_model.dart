@@ -1,29 +1,48 @@
-import 'package:e_commerce_app_v2/view/cart_view.dart';
-import 'package:e_commerce_app_v2/view/home/home_view.dart';
-import 'package:e_commerce_app_v2/view/profile_view.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_app_v2/core/services/home_services.dart';
+import 'package:e_commerce_app_v2/model/category_model.dart';
+import 'package:e_commerce_app_v2/model/product_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class HomeViewModel extends GetxController {
-  int _navigatorValue = 0;
-   Widget _currentScreen =HomeView();
-  Widget get currentScreen=>_currentScreen;
 
-  int get navigatorValue => _navigatorValue;
+  List<CategoryModel> _categories = [];
+  List<ProductModel> _products = [];
+  ValueNotifier<bool> _loading = ValueNotifier(false);
 
-  void changeSelectedNavigatorValue(int selectedValue) {
-    _navigatorValue = selectedValue;
-    switch(selectedValue){
-      case 0:
-        _currentScreen=HomeView();
-        break;
-      case 1:
-        _currentScreen=CartView();
-        break;
-      case 2:
-        _currentScreen=ProfileView();
-        break;
-    }
-    update();
+  ValueNotifier<bool> get loading => _loading;
+
+  List<CategoryModel> get categories => _categories;
+  List<ProductModel> get products => _products;
+
+  HomeViewModel() {
+    getCategories();
+    getProducts();
+  }
+
+  getCategories() {
+    _loading.value = true;
+   HomeServices.getCategories().then((value) {
+      for (int i = 0; i < value.length; i++) {
+        _categories.add(CategoryModel.fromJson(
+            value[i].data() as Map<String, dynamic>));
+      }
+      print(_categories.length);
+      _loading.value = false;
+      update();
+    });
+  }
+  getProducts() {
+    _loading.value = true;
+    HomeServices.getProducts().then((value) {
+      for (int i = 0; i < value.length; i++) {
+        _products.add(ProductModel.fromJson(
+            value[i].data() as Map<String, dynamic>));
+      }
+      print(_products.length);
+      _loading.value = false;
+      update();
+    });
   }
 }
