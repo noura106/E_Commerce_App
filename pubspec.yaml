@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^4.13.2
   sqflite: ^2.3.0
   path: ^1.8.3
+  shared_preferences: ^2.2.2
+  status_change: ^2.0.0
 
 
 

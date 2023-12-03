@@ -1,8 +1,11 @@
+import 'package:e_commerce_app_v2/core/constants/app_svg.dart';
 import 'package:e_commerce_app_v2/core/constants/contsants.dart';
+import 'package:e_commerce_app_v2/view/check_out/check_out_view.dart';
 import 'package:e_commerce_app_v2/view/widgets/custom_button.dart';
 import 'package:e_commerce_app_v2/view/widgets/custom_text.dart';
 import 'package:e_commerce_app_v2/view_model/cart_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CartView extends StatelessWidget {
@@ -10,12 +13,12 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GetBuilder<CartViewModel>(
-          init: CartViewModel(),
-            builder: (controller) {
-          return Expanded(
+    return GetBuilder<CartViewModel>(
+      init: CartViewModel(),
+        builder: (controller) {
+      return controller.cartProducts.isNotEmpty? Column(
+        children: [
+          Expanded(
             child: ListView.separated(
               itemCount: controller.cartProducts.length,
               itemBuilder: (context, index) {
@@ -106,43 +109,46 @@ class CartView extends StatelessWidget {
                 );
               },
             ),
-          );
-        }),
-        GetBuilder<CartViewModel>(
-            init:  CartViewModel(),
-          builder:(controller){
-            return Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+          ),
+      Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CustomText(
-                        fontSize: 16,
-                        text: 'TOTAL ',
-                        color: Colors.grey,
+                      Column(
+                        children: [
+                          const CustomText(
+                            fontSize: 16,
+                            text: 'TOTAL ',
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          CustomText(fontSize: 18, text: '\$${controller.totalPrice}'),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      CustomText(fontSize: 18, text: '\$${controller.totalPrice}'),
+                      Container(
+                          height: 100,
+                          padding: const EdgeInsets.all(20),
+                          width: 180,
+                          child: CustomButton(
+                            onPress: () => Get.to(CheckOutView()),
+                            text: 'CHECKOUT',
+                          ))
                     ],
                   ),
-                  Container(
-                      height: 100,
-                      padding: const EdgeInsets.all(20),
-                      width: 180,
-                      child: CustomButton(
-                        onPress: () {},
-                        text: 'CHECKOUT',
-                      ))
-                ],
-              ),
-            );
-          }
-        )
-      ],
-    );
+
+      )
+        ],
+      ): Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(AppSvg.cartEmpty,width: 200,height: 200,),
+          SizedBox(height: 20,),
+          const CustomText(fontSize: 22, text: 'Cart is Empty',alignment: Alignment.topCenter,)
+        ],
+      );
+    });
   }
 }

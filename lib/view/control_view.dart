@@ -17,6 +17,7 @@ class ControlView extends GetWidget<AuthViewModel> {
           ? const LoginView()
           : Scaffold(
               body: GetBuilder<ControlViewModel>(
+                init: ControlViewModel(),
                 builder: (controller) {
                   return Scaffold(
                     body: controller.currentScreen,
@@ -30,7 +31,7 @@ class ControlView extends GetWidget<AuthViewModel> {
 
   Widget bottomNavigationBar() {
     return GetBuilder<ControlViewModel>(
-        init: ControlViewModel(),
+      init: Get.find<ControlViewModel>(),
         builder: (controller) {
           return BottomNavigationBar(
               onTap: (int value) {
