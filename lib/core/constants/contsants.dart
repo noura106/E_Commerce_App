@@ -15,8 +15,3 @@ class Constants {
 
 
 }
-enum Pages {
-  deliveryTime,
-  addAddress,
-  summary,
-}
